@@ -25,7 +25,9 @@ const storage = multer.diskStorage({
   },
 });
 const upload = multer({ storage }).single("files");
-const poppler = new Poppler("/usr/local/Cellar/poppler/20.11.0/bin");
+const popplerPath =
+  process.env.POPPLER_PATH || "/usr/local/Cellar/poppler/20.11.0/bin";
+const poppler = new Poppler(popplerPath);
 const options = {
   firstPageToConvert: 2,
   maintainLayout: true,
