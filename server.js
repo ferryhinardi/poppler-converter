@@ -47,6 +47,7 @@ app.post("/upload", upload, async (req, res) => {
     const res = await poppler.pdfToText(file.path, outputPath, options);
     res.status(200).json({ success: true, data: res });
   } catch (err) {
+    console.error(err);
     res.status(500).json({ success: false, error: err });
   }
 });
