@@ -45,9 +45,9 @@ app.post("/upload", upload, async (req, res) => {
   const file = req.file;
   try {
     const res = await poppler.pdfToText(file.path, outputPath, options);
-    res.status(200).send(res);
+    res.status(200).json({ success: true, data: res });
   } catch (err) {
-    res.sendStatus(500).send(err);
+    res.sendStatus(500).json({ success: false, error: err });
   }
 });
 
@@ -67,7 +67,7 @@ app.post("/export-csv", (req, res) => {
     const { csvData } = parseText(data);
     downloadCsv(csvData, res);
   } catch (err) {
-    res.sendStatus(500).send(err);
+    res.sendStatus(500).json({ success: false, error: err });
   }
 });
 
