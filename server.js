@@ -43,11 +43,12 @@ app.get("/ping", function (req, res) {
 
 app.post("/upload", upload, async (req, res) => {
   const file = req.file;
-  // const popplerResult = await poppler.pdfToHtml(file.path, options);
-  // console.log("pdf to html...", popplerResult);
-  await poppler.pdfToText(file.path, outputPath, options);
-
-  res.sendStatus(200);
+  try {
+    const res = await poppler.pdfToText(file.path, outputPath, options);
+    res.status(200).send(res);
+  } catch (err) {
+    res.sendStatus(500).send(err);
+  }
 });
 
 app.get("/output", (req, res) => {
@@ -66,7 +67,7 @@ app.post("/export-csv", (req, res) => {
     const { csvData } = parseText(data);
     downloadCsv(csvData, res);
   } catch (err) {
-    console.log("err", err);
+    res.sendStatus(500).send(err);
   }
 });
 

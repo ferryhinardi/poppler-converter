@@ -6,7 +6,7 @@ import './App.css';
 
 function App() {
   const queryCache = useQueryCache()
-  const [mutate] = useMutation(async (data) => {
+  const [mutate, { isLoading: loadingMutate }] = useMutation(async (data) => {
     const res = await fetch('/upload', { method: 'POST', body: data });
     return res.json();
   }, {
@@ -47,6 +47,7 @@ function App() {
             <p>Drag 'n' drop some files here, or click to select files</p>
         }
       </div>
+      {loadingMutate && <div className="Center"><p>Uploading...</p></div>}
       {isEmptyTable ? null : (
         <div className="Center">
           {isLoading ? <p>Loading...</p> : <TableData columns={data?.data?.column || []} data={data?.data?.data || []} />}
