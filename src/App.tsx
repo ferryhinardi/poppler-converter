@@ -33,7 +33,7 @@ function App() {
     });
 
     mutate(form as any);
-  }, []);
+  }, [mutate]);
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
   const isEmptyTable = !isLoading && data?.data?.data?.length === 0;
 
