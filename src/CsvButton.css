@@ -1,0 +1,7 @@
+.ButtonContainer {
+  display: flex;
+}
+.Button {
+  padding: 12px;
+  margin-top: 12px;
+}
