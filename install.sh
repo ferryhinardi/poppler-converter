@@ -1,5 +1,7 @@
 cat /etc/os-release
 echo "=============================="
+sudo mount -o remount,rw /
+echo "=============================="
 apt install build-essential
 echo "=============================="
 
