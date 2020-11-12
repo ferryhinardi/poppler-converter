@@ -1,9 +1,5 @@
 cat /etc/os-release
 echo "=============================="
-su mount -o remount,rw /
-echo "=============================="
-apt install build-essential
-echo "=============================="
 
 # cd /app/
 # wget http://www.netgull.com/gcc/releases/gcc-9.3.0/gcc-9.3.0.tar.gz
