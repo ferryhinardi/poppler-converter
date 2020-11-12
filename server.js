@@ -45,10 +45,10 @@ app.post("/upload", upload, async (req, res) => {
   const file = req.file;
   try {
     const res = await poppler.pdfToText(file.path, outputPath, options);
-    res.status(200).json({ success: true, data: res });
+    res.json({ success: true, data: res });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ success: false, error: err });
+    res.status(500);
+    res.json({ success: false, error: err });
   }
 });
 
@@ -58,6 +58,7 @@ app.get("/output", (req, res) => {
     const { table } = parseText(data);
     res.json({ success: true, data: table });
   } catch (err) {
+    res.status(500);
     res.json({ success: false, data: err });
   }
 });
@@ -68,7 +69,8 @@ app.post("/export-csv", (req, res) => {
     const { csvData } = parseText(data);
     downloadCsv(csvData, res);
   } catch (err) {
-    res.status(500).json({ success: false, error: err });
+    res.status(500);
+    res.json({ success: false, error: err });
   }
 });
 
