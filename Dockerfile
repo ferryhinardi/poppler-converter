@@ -17,5 +17,6 @@ COPY . ./
 # buld
 RUN yarn build
 
+ENV POPPLER_PATH="/usr/bin/"
 # start app
-CMD ["POPPLER_PATH=/usr/bin/", "npm", "start"]
+CMD ["npm", "start"]
