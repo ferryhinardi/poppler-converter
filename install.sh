@@ -2,15 +2,15 @@ apt update
 apt install gcc
 
 cd /app/
-wget http://www.freedesktop.org/software/fontconfig/release/fontconfig-2.10.91.tar.gz
-cd fontconfig-2.10.91
-tar -xzf fontconfig-2.10.91.tar.gz
+wget http://www.freedesktop.org/software/fontconfig/release/fontconfig-2.13.92.tar.gz
+cd fontconfig-2.13.92
+tar -xzf fontconfig-2.13.92.tar.gz
 ./configure
 make
 
 cd /app/
-wget http://poppler.freedesktop.org/poppler-0.22.1.tar.gz
-tar -xzf poppler-0.22.1.tar.gz
-cd poppler-0.22.1
-FONTCONFIG_LIBS="-L/app/fontconfig-2.10.91/src/.libs/ -lfontconfig" FONTCONFIG_CFLAGS="-I/app/fontconfig-2.10.91/" ./configure
+wget https://poppler.freedesktop.org/poppler-20.11.0.tar.xz
+tar -xzf poppler-20.11.0.tar.xz
+cd poppler-20.11.0
+FONTCONFIG_LIBS="-L/app/fontconfig-2.13.92/src/.libs/ -lfontconfig" FONTCONFIG_CFLAGS="-I/app/fontconfig-20.11.0/" ./configure
 make
