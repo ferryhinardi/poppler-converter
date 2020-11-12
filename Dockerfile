@@ -1,4 +1,4 @@
-FROM python3.7-nodejs12-alpine AS builder
+FROM nikolaik/python-nodejs:latest AS builder
 
 RUN apt-get update
 RUN apt-get install poppler-utils -y
