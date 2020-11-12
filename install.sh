@@ -1,6 +1,5 @@
 apt-get update
 apt-get install gcc
-apt-get install xz-utils
 
 # cd /app/
 # ls
@@ -29,7 +28,8 @@ apt-get install xz-utils
 cd /app/
 wget https://poppler.freedesktop.org/poppler-20.11.0.tar.xz
 tar -xf  poppler-20.11.0.tar.xz
-echo "ls app" ls
+echo "ls app"
+ls
 # cd poppler-20.11.0
 # echo "ls poppler" ls
 # FONTCONFIG_LIBS="-L/app/fontconfig-2.13.92/src/.libs/ -lfontconfig" FONTCONFIG_CFLAGS="-I/app/fontconfig-20.11.0/" ./configure
