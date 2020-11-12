@@ -1,3 +1,5 @@
+yum install gcc-c++
+
 cd /app/
 wget http://www.freedesktop.org/software/fontconfig/release/fontconfig-2.10.91.tar.gz
 cd fontconfig-2.10.91
