@@ -3,6 +3,7 @@ FROM nikolaik/python-nodejs:latest AS builder
 RUN apt-get update
 RUN apt-get install poppler-utils -y
 RUN virtualenv -p python3.7 /env
+RUN ls /usr/bin/
 
 WORKDIR /app
 COPY package.json yarn.lock ./
@@ -17,4 +18,5 @@ COPY . ./
 RUN yarn build
 
 # start app
+# "POPPLER_PATH=",
 CMD ["npm", "start"]
