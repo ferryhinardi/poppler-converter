@@ -6,7 +6,6 @@ ls
 wget http://www.freedesktop.org/software/fontconfig/release/fontconfig-2.13.92.tar.gz
 tar -xzf fontconfig-2.13.92.tar.gz
 cd fontconfig-2.13.92
-ls
 cd fontconfig-2.13.92
 ls
 ./configure
@@ -26,18 +25,18 @@ make
 #             --docdir=/share/doc/cmake-3.18.4 &&
 # make
 
-# cd /app/
-# mkdir poppler-20.11.0
-# cd poppler-20.11.0
-# wget https://poppler.freedesktop.org/poppler-20.11.0.tar.xz
-# tar -xzf poppler-20.11.0.tar.xz
-# # FONTCONFIG_LIBS="-L/app/fontconfig-2.13.92/src/.libs/ -lfontconfig" FONTCONFIG_CFLAGS="-I/app/fontconfig-20.11.0/" ./configure
-# mkdir build                         &&
-# cd    build                         &&
+cd /app/
+wget https://poppler.freedesktop.org/poppler-20.11.0.tar.xz
+tar -xzf poppler-20.11.0.tar.xz
+cd poppler-20.11.0
+cd poppler-20.11.0
+FONTCONFIG_LIBS="-L/app/fontconfig-2.13.92/src/.libs/ -lfontconfig" FONTCONFIG_CFLAGS="-I/app/fontconfig-20.11.0/" ./configure
+mkdir build                         &&
+cd    build                         &&
 
-# cmake  -DCMAKE_BUILD_TYPE=Release   \
-#        -DCMAKE_INSTALL_PREFIX=/usr  \
-#        -DTESTDATADIR=$PWD/testfiles \
-#        -DENABLE_UNSTABLE_API_ABI_HEADERS=ON     \
-#        ..                           &&
-# make
+cmake  -DCMAKE_BUILD_TYPE=Release   \
+       -DCMAKE_INSTALL_PREFIX=/usr  \
+       -DTESTDATADIR=$PWD/testfiles \
+       -DENABLE_UNSTABLE_API_ABI_HEADERS=ON     \
+       ..                           &&
+make
