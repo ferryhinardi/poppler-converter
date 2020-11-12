@@ -1,8 +1,16 @@
-apt-get update
-apt-get upgrade
-apt-get install gcc
-apt-get install g++
-apt-get install cmake
+cd /app/
+wget http://www.netgull.com/gcc/releases/gcc-5.2.0/gcc-5.2.0.tar.gz
+tar xzvf gcc-5.2.0.tar.gz
+echo "============ ls app =================="
+ls
+cd gcc-5.2.0
+./contrib/download_prerequisites
+cd ..
+mkdir objdir
+cd objdir
+$PWD/../gcc-5.2.0/configure --prefix=$HOME/gcc-5.2.0 --enable-languages=c,c++,fortran,go
+make
+make install
 
 echo "============ include =================="
 ls /usr/include
