@@ -2,11 +2,12 @@ apt update
 apt install gcc
 
 cd /app/
-mkdir fontconfig-2.13.92
 ls
-cd fontconfig-2.13.92
 wget http://www.freedesktop.org/software/fontconfig/release/fontconfig-2.13.92.tar.gz
 tar -xzf fontconfig-2.13.92.tar.gz
+cd fontconfig-2.13.92
+ls
+cd fontconfig-2.13.92
 ls
 ./configure
 make
