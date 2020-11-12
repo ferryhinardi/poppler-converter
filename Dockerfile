@@ -1,13 +1,13 @@
 FROM node:14.1-alpine AS builder
 
 WORKDIR /opt/web
-COPY package.json package-lock.json ./
-RUN npm install
+COPY package.json yarn-lock.json ./
+RUN yarn
 
 ENV PATH="./node_modules/.bin:$PATH"
 
 COPY . ./
-RUN npm run build
+RUN yarn build
 
 FROM nginx:1.17-alpine
 RUN apk --no-cache add curl
