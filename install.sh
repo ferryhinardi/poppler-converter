@@ -33,13 +33,11 @@ ls
 cd poppler-20.11.0
 echo "ls poppler"
 ls
-# FONTCONFIG_LIBS="-L/app/fontconfig-2.13.92/src/.libs/ -lfontconfig" FONTCONFIG_CFLAGS="-I/app/fontconfig-20.11.0/" ./configure
-# mkdir build                         &&
-# cd    build                         &&
-
-# cmake  -DCMAKE_BUILD_TYPE=Release   \
-#        -DCMAKE_INSTALL_PREFIX=/usr  \
-#        -DTESTDATADIR=$PWD/testfiles \
-#        -DENABLE_UNSTABLE_API_ABI_HEADERS=ON     \
-#        ..                           &&
-# make
+mkdir build
+cd    build
+cmake  -DCMAKE_BUILD_TYPE=Release   \
+       -DCMAKE_INSTALL_PREFIX=/usr  \
+       -DTESTDATADIR=$PWD/testfiles \
+       -DENABLE_UNSTABLE_API_ABI_HEADERS=ON     \
+       ..                           &&
+make
