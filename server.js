@@ -45,6 +45,7 @@ app.post("/upload", upload, async (req, res) => {
   const file = req.file;
   try {
     const result = await poppler.pdfToText(file.path, outputPath, options);
+    fs.unlinkSync(file.path); // remove tmp file
     res.json({ success: true, data: result });
   } catch (err) {
     res.status(500);
