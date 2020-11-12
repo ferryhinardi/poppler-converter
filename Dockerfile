@@ -1,5 +1,9 @@
 FROM node:14.1-alpine AS builder
 
+RUN apt-get update
+RUN apt-get install poppler-utils -y
+RUN virtualenv -p python3.7 /env
+
 WORKDIR /app
 COPY package.json yarn.lock ./
 RUN yarn
