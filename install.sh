@@ -6,6 +6,7 @@ apt install build-essential
 echo "=============================="
 
 # cd /app/
+# wget http://www.netgull.com/gcc/releases/gcc-9.3.0/gcc-9.3.0.tar.gz
 # wget http://www.netgull.com/gcc/releases/gcc-5.2.0/gcc-5.2.0.tar.gz
 # tar xzvf gcc-5.2.0.tar.gz
 # echo "============ ls app =================="
