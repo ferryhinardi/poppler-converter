@@ -2,17 +2,13 @@ import React from 'react';
 import { useMutation } from 'react-query';
 import './CsvButton';
 
-type Props = {
-  data?: any,
-};
-
-function CsvButton({ data }: Props) {
+function CsvButton() {
   const [mutate] = useMutation(async () => {
     const res = await fetch('/export-csv', { method: 'POST' });
     return res.blob();
   });
   const onExport = async () => {
-    const result = await mutate(data);
+    const result = await mutate();
     const url = window.URL.createObjectURL(new Blob([result as any]));
     const link = document.createElement('a');
     link.href = url;

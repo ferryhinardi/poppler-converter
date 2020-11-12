@@ -1,5 +1,6 @@
 import React from 'react';
 import { useTable } from 'react-table';
+import ResetButton from './ResetButton';
 import CsvButton from './CsvButton';
 import './ReactDataTable.css';
 
@@ -30,7 +31,10 @@ function ReactDataTable(props: Props) {
 
   return (
     <>
-      <CsvButton />
+      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end' }}>
+        <ResetButton />
+        <CsvButton />
+      </div>
       <table className="Table" {...getTableProps()}>
         <thead>
           {headerGroups.map((headerGroup: any) => (

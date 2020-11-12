@@ -44,8 +44,8 @@ app.get("/ping", function (req, res) {
 app.post("/upload", upload, async (req, res) => {
   const file = req.file;
   try {
-    const res = await poppler.pdfToText(file.path, outputPath, options);
-    res.json({ success: true, data: res });
+    const result = await poppler.pdfToText(file.path, outputPath, options);
+    res.json({ success: true, data: result });
   } catch (err) {
     res.status(500);
     res.json({ success: false, error: err });
@@ -53,8 +53,12 @@ app.post("/upload", upload, async (req, res) => {
 });
 
 app.get("/output", (req, res) => {
+  let data = "";
   try {
-    const data = fs.readFileSync("outputs", "utf8");
+    if (fs.existsSync(outputPath)) {
+      data = fs.readFileSync(outputPath, "utf8");
+    }
+
     const { table } = parseText(data);
     res.json({ success: true, data: table });
   } catch (err) {
@@ -65,9 +69,19 @@ app.get("/output", (req, res) => {
 
 app.post("/export-csv", (req, res) => {
   try {
-    const data = fs.readFileSync("outputs", "utf8");
+    const data = fs.readFileSync(outputPath, "utf8");
     const { csvData } = parseText(data);
     downloadCsv(csvData, res);
+  } catch (err) {
+    res.status(500);
+    res.json({ success: false, error: err });
+  }
+});
+
+app.post("/reset-csv", async (req, res) => {
+  try {
+    fs.unlinkSync(outputPath);
+    res.json({ success: true });
   } catch (err) {
     res.status(500);
     res.json({ success: false, error: err });
