@@ -1,7 +1,7 @@
 FROM node:14.1-alpine AS builder
 
 WORKDIR /opt/web
-COPY package.json yarn-lock.json ./
+COPY package.json ./
 RUN yarn
 
 ENV PATH="./node_modules/.bin:$PATH"
