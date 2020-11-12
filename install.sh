@@ -28,8 +28,9 @@ make
 cd /app/
 wget https://poppler.freedesktop.org/poppler-20.11.0.tar.xz
 tar -xzf poppler-20.11.0.tar.xz
+ls
 cd poppler-20.11.0
-cd poppler-20.11.0
+ls
 FONTCONFIG_LIBS="-L/app/fontconfig-2.13.92/src/.libs/ -lfontconfig" FONTCONFIG_CFLAGS="-I/app/fontconfig-20.11.0/" ./configure
 mkdir build                         &&
 cd    build                         &&
