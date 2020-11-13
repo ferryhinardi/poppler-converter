@@ -37,7 +37,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "build")));
 
-app.get("/ping", function (req, res) {
+app.get("/ping", function (_, res) {
   return res.send("pong");
 });
 
@@ -53,7 +53,7 @@ app.post("/upload", upload, async (req, res) => {
   }
 });
 
-app.get("/output", (req, res) => {
+app.get("/output", (_, res) => {
   let data = "";
   try {
     if (fs.existsSync(outputPath)) {
@@ -68,7 +68,7 @@ app.get("/output", (req, res) => {
   }
 });
 
-app.post("/export-csv", (req, res) => {
+app.post("/export-csv", (_, res) => {
   try {
     const data = fs.readFileSync(outputPath, "utf8");
     const { csvData } = parseText(data);
@@ -79,7 +79,7 @@ app.post("/export-csv", (req, res) => {
   }
 });
 
-app.post("/reset-csv", async (req, res) => {
+app.post("/reset-csv", async (_, res) => {
   try {
     fs.unlinkSync(outputPath);
     res.json({ success: true });
@@ -89,7 +89,7 @@ app.post("/reset-csv", async (req, res) => {
   }
 });
 
-app.get("/", function (req, res) {
+app.get("/", function (_, res) {
   res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
