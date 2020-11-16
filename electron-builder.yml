@@ -1,0 +1,57 @@
+appId: com.production
+productName: Popp
+asar: true
+artifactName: "${productName}-${version}-${arch}.${ext}"
+compression: maximum
+files:
+  - "./build/**/*"
+  - "./build/electron.js"
+  - "./assets/**/*"
+dmg:
+  contents:
+    - x: 281
+      y: 249
+      type: file
+    - x: 532
+      y: 249
+      type: link
+      path: /Applications
+nsis:
+  perMachine: true
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  installerLanguages: id_ID
+mac:
+  category: public.app-category.productivity
+  target:
+    - zip
+    - dmg
+  icon: public/pdf_640.png
+  publish:
+    - provider: github
+      repo: poppler-converter
+      owner: ferryhinardi
+win:
+  target:
+    - "nsis:ia32"
+    - "nsis:x64"
+  icon: public/pdf_640.png
+  certificateFile: private/ptgppfx
+  verifyUpdateCodeSignature: false
+  publisherName: Media
+  publish:
+    - provider: github
+      repo: poppler-converter
+      owner: ferryhinardi
+linux:
+  target:
+    - "AppImage"
+    - deb
+  icon: public/pdf_640.png
+  maintainer: "Ferry Hinardi"
+  publish:
+    - provider: github
+      repo: poppler-converter
+      owner: ferryhinardi
+directories:
+  buildResources: public
