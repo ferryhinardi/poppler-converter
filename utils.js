@@ -2,13 +2,44 @@ const _ = require("lodash");
 const stringify = require("csv-stringify");
 
 const reactTableColumn = [
-  { Header: "AIR", accessor: "airCode" },
-  { Header: "Trnc", accessor: "trncCode" },
-  { Header: "Document Number", accessor: "docNumber" },
-  { Header: "Balance Payable", accessor: "balancePayable" },
+  { Header: "AIR", accessor: "AIR" },
+  { Header: "Trnc", accessor: "TRNC" },
+  { Header: "Document Number", accessor: "Document Number" },
+  { Header: "Issue Date", accessor: "Issue Date" },
+  { Header: "Balance Payable", accessor: "Balance Payable" },
+];
+const csvColumn = [
+  "AIR",
+  "TRNC",
+  "Document Number",
+  "Issue Date",
+  "Balance Payable",
 ];
 const trncRules = ["TKTT", "EMDA", "EMDS"];
+/*
+const rules = {
+  "NR Code": {
+    rule: (val) => {
+      if (val.startsWith("NR")) {
+        return false;
+      }
 
+      return true;
+    },
+  },
+  FOP: {
+    rule: (val) => {
+      if (new RegExp("[A-Z]{2}").test(val)) {
+        return false;
+      }
+
+      return true;
+    },
+  },
+  TAX: { join: joinAmount },
+  "Taxes, Fees & Charges F&C": { join: joinAmount },
+};
+*/
 function parseText(str) {
   const lines = str.split("\n");
   const linesWithoutSpace = _.remove(lines, (s) => s !== "");
@@ -29,11 +60,18 @@ function parseText(str) {
     );
 
     if (isRowWithTrncRule) {
-      const airCode = rowWithoutSpace[0];
-      const trncCode = rowWithoutSpace[1];
-      const docNumber = rowWithoutSpace[2];
-      const balancePayable = rowWithoutSpace[rowWithoutSpace.length - 1];
-      prev.push({ airCode, trncCode, docNumber, balancePayable });
+      fieldColumn = {};
+
+      for (let i = 0; i < csvColumn.length; i++) {
+        const column = csvColumn[i];
+        if (column === "Balance Payable") {
+          fieldColumn[column] = rowWithoutSpace[rowWithoutSpace.length - 1];
+        } else {
+          fieldColumn[column] = rowWithoutSpace[i];
+        }
+      }
+
+      prev.push(fieldColumn);
     }
     return prev;
   }, []);
@@ -55,5 +93,16 @@ function downloadCsv(data, res) {
   res.setHeader("Pragma", "no-cache");
   stringify(data, { header: true }).pipe(res);
 }
+/*
+function joinAmount(list, index) {
+  const amount = list[index];
+  const suffix = list[index + 1];
 
+  if (amount && new RegExp("[A-Z1-9]{2}").test(suffix)) {
+    return [amount, suffix].join(" ");
+  }
+
+  return null;
+}
+*/
 module.exports = { parseText, downloadCsv };
