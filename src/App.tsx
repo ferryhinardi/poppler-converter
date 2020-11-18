@@ -1,17 +1,18 @@
-import React, { useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useQuery, useMutation, useQueryCache } from 'react-query';
 import { useDropzone } from 'react-dropzone';
 import TableData, { RowData, ColumnData } from './ReactDataTable';
 import './App.css';
 
 function App() {
+  const [filename, setFilename] = useState<string | undefined>();
   const queryCache = useQueryCache()
-  const [mutate, { isLoading: loadingMutate }] = useMutation(async (data) => {
+  const [mutate, { isLoading: loadingMutate }] = useMutation<{ data: { filename: string; result: string }, success: boolean }>(async (data) => {
     const res = await fetch('/upload', { method: 'POST', body: data });
     return res.json();
   }, {
-    onSuccess: () => {
-      queryCache.invalidateQueries('output');
+    onSuccess: async (data) => {
+      queryCache.invalidateQueries(['output', { filename: data.data.filename }]);
     }
   });
   const { data, isLoading } = useQuery<{
@@ -20,11 +21,12 @@ function App() {
       column: ColumnData[],
       data: RowData[]
     } | any;
-  }>('output', async () => {
-    const res = await fetch('/output');
+  }>(['output', { filename }], async (_, params) => {
+    const filename = params.filename || localStorage.getItem('files');
+    const res = await fetch(`/output?filename=${filename}`);
     return res.json();
   });
-  const onDrop = useCallback(acceptedFiles => {
+  const onDrop = useCallback(async (acceptedFiles) => {
     const form = new FormData();
 
     // Do something with the files
@@ -32,7 +34,10 @@ function App() {
       form.append(`files`, file);
     });
 
-    mutate(form as any);
+    const res = await mutate(form as any);
+    const filename = res?.data?.filename || '';
+    setFilename(filename);
+    localStorage.setItem('files', filename);
   }, [mutate]);
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
   const isEmptyTable = !isLoading && data?.data?.data?.length === 0;

@@ -43,20 +43,28 @@ app.get("/ping", function (_, res) {
 app.post("/upload", upload, async (req, res) => {
   const file = req.file;
   try {
-    const result = await poppler.pdfToText(file.path, outputPath, options);
+    const filename = `file_${Date.now()}`;
+    const result = await poppler.pdfToText(
+      file.path,
+      `${path.join(outputPath, filename)}`,
+      options
+    );
     fs.unlinkSync(file.path); // remove tmp file
-    res.json({ success: true, data: result });
+    res.json({ success: true, data: { result, filename } });
   } catch (err) {
     res.status(500);
     res.json({ success: false, error: err });
   }
 });
 
-app.get("/output", (_, res) => {
+app.get("/output", (req, res) => {
+  const { filename } = req.query;
   let data = "";
   try {
-    if (fs.existsSync(outputPath)) {
-      data = fs.readFileSync(outputPath, "utf8");
+    const filepath = path.join(outputPath, filename);
+
+    if (fs.existsSync(filepath)) {
+      data = fs.readFileSync(filepath, "utf8");
     }
 
     const { table } = parseText(data);
@@ -67,9 +75,11 @@ app.get("/output", (_, res) => {
   }
 });
 
-app.post("/export-csv", (_, res) => {
+app.post("/export-csv", (req, res) => {
+  const { filename } = req.query;
   try {
-    const data = fs.readFileSync(outputPath, "utf8");
+    const filepath = path.join(outputPath, filename);
+    const data = fs.readFileSync(filepath, "utf8");
     const { csvData } = parseText(data);
     downloadCsv(csvData, res);
   } catch (err) {
@@ -78,9 +88,11 @@ app.post("/export-csv", (_, res) => {
   }
 });
 
-app.post("/reset-csv", async (_, res) => {
+app.post("/reset-csv", async (req, res) => {
+  const { filename } = req.query;
   try {
-    fs.unlinkSync(outputPath);
+    const filepath = path.join(outputPath, filename);
+    fs.unlinkSync(filepath);
     res.json({ success: true });
   } catch (err) {
     res.status(500);

@@ -83,7 +83,6 @@ function parseText(str) {
 }
 
 function downloadCsv(data, res) {
-  console.log("data", data);
   res.setHeader("Content-Type", "text/csv");
   res.setHeader(
     "Content-Disposition",

@@ -2,9 +2,10 @@ import React from 'react';
 import { useMutation, useQueryCache } from 'react-query';
 
 function ResetButton() {
-  const queryCache = useQueryCache()
+  const queryCache = useQueryCache();
   const [mutate] = useMutation(async () => {
-    const res = await fetch('/reset-csv', { method: 'POST' });
+    const filename = localStorage.getItem('files');
+    const res = await fetch(`/reset-csv?filename=${filename}`, { method: 'POST' });
     return res.json();
   }, {
     onSuccess: () => {
@@ -13,6 +14,7 @@ function ResetButton() {
   });
   const onReset = async () => {
     await mutate();
+    localStorage.removeItem('files');
   };
 
   return (

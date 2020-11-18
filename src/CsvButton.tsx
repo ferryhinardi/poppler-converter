@@ -4,7 +4,8 @@ import './CsvButton';
 
 function CsvButton() {
   const [mutate] = useMutation(async () => {
-    const res = await fetch('/export-csv', { method: 'POST' });
+    const filename = localStorage.getItem('files');
+    const res = await fetch(`/export-csv?filename=${filename}`, { method: 'POST' });
     return res.blob();
   });
   const onExport = async () => {
