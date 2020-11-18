@@ -42,8 +42,9 @@ app.get("/ping", function (_, res) {
 
 app.post("/upload", upload, async (req, res) => {
   const file = req.file;
+  const filename = `file_${Date.now()}`;
+
   try {
-    const filename = `file_${Date.now()}`;
     const result = await poppler.pdfToText(
       file.path,
       `${path.join(outputPath, filename)}`,
@@ -105,5 +106,9 @@ app.get("/", function (_, res) {
 });
 
 app.listen(port, () => {
+  if (!fs.existsSync(outputPath)) {
+    fs.mkdirSync(outputPath);
+  }
+
   console.log(`server is listening on ${port}`);
 });
