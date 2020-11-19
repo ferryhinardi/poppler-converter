@@ -1,12 +1,17 @@
 import React from 'react';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryCache } from 'react-query';
 import './CsvButton';
 
 function CsvButton() {
+  const queryCache = useQueryCache();
   const [mutate] = useMutation(async () => {
     const filename = localStorage.getItem('files');
     const res = await fetch(`/export-csv?filename=${filename}`, { method: 'POST' });
     return res.blob();
+  }, {
+    onSuccess: () => {
+      queryCache.invalidateQueries('output');
+    }
   });
   const onExport = async () => {
     const result = await mutate();
