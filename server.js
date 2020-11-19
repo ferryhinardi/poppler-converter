@@ -83,6 +83,7 @@ app.post("/export-csv", (req, res) => {
     const data = fs.readFileSync(filepath, "utf8");
     const { csvData } = parseText(data);
     downloadCsv(csvData, res);
+    fs.unlinkSync(filepath);
   } catch (err) {
     res.status(500);
     res.json({ success: false, error: err });
